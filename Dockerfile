@@ -1,11 +1,11 @@
-# Use the MySQL base image
-FROM mysql:8.0.33
+# Use the official MySQL image from the Docker Hub
+FROM mysql:8.0
 
-# Set environment variables
-ENV MYSQL_ROOT_PASSWORD=password
+# Copy a custom SQL script to initialize the database with specific credentials
+COPY ./init.sql /docker-entrypoint-initdb.d/
 
-# Add the command to set the SQL mode
-CMD ["--sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"]
-
-# Expose the port
+# Expose MySQL port
 EXPOSE 3306
+
+# Run the MySQL server
+CMD ["mysqld"]
